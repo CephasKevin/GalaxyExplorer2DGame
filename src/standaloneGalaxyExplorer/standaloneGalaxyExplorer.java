@@ -92,8 +92,26 @@ public class standaloneGalaxyExplorer {
 		EnemyShipcoords(enemyShips);
 		return executeCommand(command);
 	}
-	public static String executeCommand(String command){
+	public static void saveCoordinatesAndMove(String axis, String function)
+	{
 		
+		preX=xcd;//preX and preY represent the previous coordinates of the spaceship before making any changes, so that the coordinates can be reverted in case any unwanted movements are made
+		preY=ycd;
+		
+		if(axis == "Y")
+		{
+			if(function == "dec"){ycd--;}
+			if(function == "inc"){ycd++;}
+		}
+		if(axis == "X")
+		{
+			if(function == "dec"){xcd--;}
+			if(function == "inc"){xcd++;}
+		}
+		
+		warper();
+	}
+	public static String executeCommand(String command){
 		
 			for(int i = 0;i<command.length();i++){
 				char k = command.charAt(i);
@@ -109,34 +127,13 @@ public class standaloneGalaxyExplorer {
 					Rotater();	//Repeating a 90deg turn 3 times provides the equivalent of one left turn 
 					Rotater();	
 				}
-				if((currentcommand.matches("f")&direcfacing.matches("N"))||(currentcommand.matches("b")&direcfacing.matches("S")))
-				{
-					preX=xcd;  //preX and preY represent the previous coordinates of the spaceship before making any changes, so that the coordinates can be reverted in case any unwanted movements are made
-					preY=ycd;
-					ycd++;
-					warper();
-				}
-				if(currentcommand.matches("f")&direcfacing.matches("E")||currentcommand.matches("b")&direcfacing.matches("W"))
-				{
-					preX=xcd;
-					preY=ycd;
-					xcd++;
-					warper();
-				}
-				if((currentcommand.matches("b")&direcfacing.matches("N"))||(currentcommand.matches("f")&direcfacing.matches("S")))
-				{
-					preX=xcd;
-					preY=ycd;
-					ycd--;
-					warper();
-				}
-				if((currentcommand.matches("b")&direcfacing.matches("E"))||(currentcommand.matches("f")&direcfacing.matches("W")))
-				{
-					preX=xcd;
-					preY=ycd;
-					xcd--;
-					warper();
-				}
+				if((currentcommand.matches("f")&direcfacing.matches("N"))||(currentcommand.matches("b")&direcfacing.matches("S"))){saveCoordinatesAndMove("Y", "inc");}
+				
+				if((currentcommand.matches("b")&direcfacing.matches("N"))||(currentcommand.matches("f")&direcfacing.matches("S"))){saveCoordinatesAndMove("Y", "dec");}
+				
+				if((currentcommand.matches("b")&direcfacing.matches("E"))||(currentcommand.matches("f")&direcfacing.matches("W"))){saveCoordinatesAndMove("X", "dec");}
+				
+				if(currentcommand.matches("f")&direcfacing.matches("E")||currentcommand.matches("b")&direcfacing.matches("W")){saveCoordinatesAndMove("X", "inc");}
 				
 				}
 		return "("+xcd+";"+ycd+";"+direcfacing+")"+encounters;

@@ -13,7 +13,7 @@ public class runGame {
 	private static void nextLevel(String target, String enemyShipLocations)
 	{
 		System.out.println("GalaxyExplorer spaceship at coordinates(0,0) facing North!\n");
-		System.out.println("Enemy ships located at coordinates: " + enemyShipLocations + " You must avoid making contact these");
+		System.out.println("Enemy ships located at coordinates: " + enemyShipLocations + " You must avoid making contact with these");
 		System.out.println("Your Target is located at coordinates: " + target + " Enter commands now!");
 		
 		String inputCommand = inputScanner.nextLine();//Take user input and pass it into a string
